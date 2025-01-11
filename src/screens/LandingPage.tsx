@@ -36,7 +36,7 @@ const Navbar = () => {
             Contact
           </a> */}
           {/* Button for Download */}
-          <a href="/Geov2.apk" download="Geo.apk">
+          <a href="https://tinyurl.com/GeoMobileApplication" download="Geo.apk">
             <Button
               className="w-full sm:w-auto px-4 py-2 text-sm"
               variant="default"
