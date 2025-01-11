@@ -108,7 +108,7 @@ const LandingPage = () => {
             </p>
             <div className="mt-8 flex flex-col sm:flex-row sm:justify-start sm:gap-4">
               {/* Button for Download */}
-              <a href="/Geov2.apk" download="Geo.apk">
+              <a href="https://tinyurl.com/GeoMobileApplication" download="Geo.apk">
                 <Button
                   className="w-full sm:w-auto px-6 py-6 text-lg"
                   variant="default"
