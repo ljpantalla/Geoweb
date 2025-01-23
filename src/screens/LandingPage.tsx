@@ -7,14 +7,95 @@ import {
   FaDownload,
   FaShieldAlt,
 } from "react-icons/fa";
-import Lottie from "lottie-react";
-import map from "./../animation.json";
+import { motion } from "framer-motion";
+// import Lottie from "lottie-react";
+// import map from "./../animation.json";
+
+// Update the animation variants at the top of the file
+const fadeIn = {
+  initial: { 
+    opacity: 0, 
+    y: 30 
+  },
+  animate: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: "easeOut"
+    }
+  }
+};
+
+const staggerContainer = {
+  animate: {
+    transition: {
+      staggerChildren: 0.3,
+      delayChildren: 0.2
+    }
+  }
+};
+
+// Add a new variant for cards with scale effect
+const cardAnimation = {
+  initial: { 
+    opacity: 0, 
+    y: 30,
+    scale: 0.9
+  },
+  animate: { 
+    opacity: 1, 
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.8,
+      ease: "easeOut"
+    }
+  }
+};
+
+// Add these new animation variants at the top with the others
+const titleAnimation = {
+  initial: { 
+    opacity: 0, 
+    y: 30 
+  },
+  animate: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 1,
+      ease: "easeOut"
+    }
+  }
+};
+
+const iconAnimation = {
+  initial: { 
+    scale: 0,
+    opacity: 0,
+    rotate: -30
+  },
+  animate: { 
+    scale: 1,
+    opacity: 1,
+    rotate: 0,
+    transition: {
+      duration: 0.8,
+      ease: "easeOut",
+      delay: 0.2
+    }
+  }
+};
 
 const Navbar = () => {
   return (
-    <nav className="fixed top-0 z-50 w-full px-6 sm:px-12 lg:px-24 py-4 shadow-md bg-white">
+    <nav className="fixed top-0 z-50 w-full px-6 sm:px-12 lg:px-24 py-4 bg-white shadow-sm">
       <div className="container mx-auto flex justify-between items-center">
-        <div className="text-2xl font-medium items-center flex" style={{ color: "#0089E5" }}>
+        <div
+          className="text-2xl font-medium items-center flex"
+          style={{ color: "#0089E5" }}
+        >
           <img
             src="/assets/icon1.png" // Replace with your image path
             alt="Geo"
@@ -32,18 +113,20 @@ const Navbar = () => {
           <a href="#howitworks" className="text-gray-600">
             How It Works
           </a>
+          <a href="#about" className="text-gray-600">
+            About
+          </a>
           {/* <a href="#contact" className="text-gray-600">
             Contact
           </a> */}
           {/* Button for Download */}
           <a href="https://tinyurl.com/GeoMobileApp" download="Geo.apk">
             <Button
-              className="w-full sm:w-auto px-4 py-2 text-sm"
+              className="w-full sm:w-auto px-4 py-2 text-sm font-medium transition-all hover:scale-105"
               variant="default"
               style={{
-                backgroundColor: "#0089e5",
+                background: "linear-gradient(to right, #0089e5, #00a1ff)",
                 color: "#fff",
-                fontFamily: "Onest",
               }}
             >
               Download App
@@ -82,40 +165,60 @@ const LandingPage = () => {
 
       {/* Main content (Hero Section) */}
       <div
-        className="h-screen flex items-center justify-center bg-gray-100"
-        style={{
-          backgroundColor: "#f8f8ff",
-        }}
+        className="min-h-screen flex items-center justify-center bg-white relative overflow-hidden"
+        id="home"
       >
-        <div
-          className="container mx-auto px-6 sm:px-12 lg:px-24 flex flex-col-reverse sm:flex-row items-center sm:gap-12"
-          id="home"
+        {/* Background blur effects */}
+        <div 
+          className="absolute top-1/4 -left-1/4 w-1/2 h-1/2 rounded-full bg-blue-200/30 blur-[120px]"
+          style={{ background: 'linear-gradient(to right, rgba(0,137,229,0.15), rgba(0,161,255,0.15))' }}
+        />
+        <div 
+          className="absolute bottom-1/4 -right-1/4 w-1/2 h-1/2 rounded-full bg-blue-200/30 blur-[120px]"
+          style={{ background: 'linear-gradient(to left, rgba(0,137,229,0.15), rgba(0,161,255,0.15))' }}
+        />
+
+        {/* Content */}
+        <motion.div 
+          className="container mx-auto px-6 sm:px-12 lg:px-24 flex flex-col items-center pt-20 relative z-10"
+          initial="initial"
+          animate="animate"
+          variants={staggerContainer}
         >
+          {/* Lottie Animation Section */}
+          {/* <div className="w-full max-w-xl mt-0">
+            <Lottie 
+              animationData={map} 
+              loop={true}
+              style={{ 
+                height: '300px'
+              }}
+            />
+          </div> */}
+
           {/* Text Section */}
-          <div className="sm:w-1/2 text-center sm:text-left">
-            <h1
-              className="text-4xl font-extrabold tracking-tight text-blue-600 sm:text-6xl lg:text-7xl"
-              style={{ fontFamily: "Onest", color: "#0089e5" }}
-            >
-              Smart commuting made easy with Geo
+          <motion.div 
+            className="w-full max-w-3xl text-center space-y-6"
+            variants={fadeIn}
+          >
+            <h1 className="text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl lg:text-6xl">
+              Smart commuting made easy with{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0089e5] to-[#00a1ff]">
+                Geo
+              </span>
             </h1>
-            <p
-              className="mt-6 text-lg leading-8 text-gray-600 sm:text-xl lg:text-xl font-light"
-              style={{ fontFamily: "Onest" }}
-            >
+            <p className="mt-6 text-base leading-7 text-gray-600 sm:text-lg lg:text-xl font-m">
               Real-time tracking of Modern Jeepneys for a safer and smarter
               commute.
             </p>
-            <div className="mt-8 flex flex-col sm:flex-row sm:justify-start sm:gap-4">
+            <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
               {/* Button for Download */}
-              <a href="https://tinyurl.com/GeoMobileApplication" download="Geo.apk">
+              <a href="https://tinyurl.com/GeoMobileApp" download="Geo.apk">
                 <Button
-                  className="w-full sm:w-auto px-6 py-6 text-lg"
-                  variant="default"
+                  className="w-full sm:w-auto px-6 py-6 text-lg font-medium transition-all hover:scale-105"
                   style={{
-                    backgroundColor: "#0089e5",
+                    background: "linear-gradient(to right, #0089e5, #00a1ff)",
                     color: "#fff",
-                    fontFamily: "Onest",
                   }}
                 >
                   Download App
@@ -129,169 +232,379 @@ const LandingPage = () => {
                     borderColor: "#0089e5",
                     borderWidth: 2,
                     color: "#0089e5",
-                    fontFamily: "Onest",
-                    backgroundColor: "#f8f8ff",
                   }}
                 >
                   Learn More
                 </Button>
               </a>
             </div>
-          </div>
-
-          {/* Lottie Animation Section */}
-          <div className="sm:w-1/2 mt-12 sm:mt-0">
-            <Lottie animationData={map} loop={true}></Lottie>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
 
       {/* Features Section */}
-      <div
-        className="py-16 bg-white container mx-auto px-6 sm:px-12 lg:px-24 border-t-8 border-t-sky-500"
+      <motion.div 
+        className="py-24 bg-white relative overflow-hidden" 
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true }}
+        variants={staggerContainer}
         id="features"
-        style={{ color: "#0089e5", fontFamily: "Onest" }}
       >
-        <div className="container mx-auto px-4">
-          <h1
-            className="text-4xl font-black text-center mb-12"
-            style={{ fontFamily: "Onest" }}
+        {/* Background blur effects */}
+        <div 
+          className="absolute top-1/4 -left-1/4 w-1/2 h-1/2 rounded-full bg-blue-200/30 blur-[120px]"
+          style={{ background: 'linear-gradient(to right, rgba(0,137,229,0.15), rgba(0,161,255,0.15))' }}
+        />
+        <div 
+          className="absolute bottom-1/4 -right-1/4 w-1/2 h-1/2 rounded-full bg-blue-200/30 blur-[120px]"
+          style={{ background: 'linear-gradient(to left, rgba(0,137,229,0.15), rgba(0,161,255,0.15))' }}
+        />
+        
+        {/* Content */}
+        <div className="container mx-auto px-6 sm:px-12 lg:px-24 relative z-10">
+          <motion.h1 
+            variants={titleAnimation}
+            className="text-3xl sm:text-4xl font-bold text-center mb-6 text-gray-800"
           >
-            Key Features Include:
-          </h1>
-          <div className="grid md:grid-cols-3 gap-8 p-11">
+            Key Features
+          </motion.h1>
+          <motion.p 
+            variants={titleAnimation}
+            className="text-gray-600 text-center max-w-2xl mx-auto mb-16 text-lg"
+          >
+            Experience seamless commuting with our innovative features
+          </motion.p>
+          <motion.div 
+            className="grid md:grid-cols-3 gap-12"
+            variants={staggerContainer}
+          >
             {/* Real-Time Tracking Card */}
-            <Card
-              className="p-6 flex flex-col items-center text-center shadow-lg border rounded-lg"
-              style={{ borderColor: "#0089e5" }}
-            >
-              <FaMapMarkedAlt className="text-4xl text-sky-500 mb-4" />
-              <h3 className="text-xl font-semibold mb-4">
-                Real-time Route Tracking
-              </h3>
-              <p className="text-gray-600 mb-4">
-                Track Modern Jeepneys on the map with live updates.
-              </p>
-            </Card>
+            <motion.div variants={cardAnimation}>
+              <Card className="p-10 flex flex-col items-center text-center group hover:shadow-2xl transition-all duration-300 border-none bg-white rounded-2xl">
+                <motion.div 
+                  className="w-20 h-20 rounded-2xl bg-blue-50 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-300"
+                  variants={iconAnimation}
+                >
+                  <FaMapMarkedAlt className="text-3xl text-[#0089e5]" />
+                </motion.div>
+                <motion.h3 
+                  variants={fadeIn} 
+                  className="text-xl font-semibold mb-4 text-gray-800"
+                >
+                  Real-time Route Tracking
+                </motion.h3>
+                <motion.p 
+                  variants={fadeIn}
+                  className="text-gray-600"
+                >
+                  Track Modern Jeepneys on the map with live updates.
+                </motion.p>
+              </Card>
+            </motion.div>
 
             {/* Modern Jeepney Info Card */}
-            <Card
-              className="p-6 flex flex-col items-center text-center shadow-lg border rounded-lg"
-              style={{ borderColor: "#0089E5" }}
-            >
-              <FaRoute className="text-4xl text-sky-500 mb-4" />
-              <h3 className="text-xl font-semibold mb-4">
-                Modern Jeepney Information
-              </h3>
-              <p className="text-gray-600 mb-4">
-                Get real-time information about modern jeepneys for a smoother
-                commute.
-              </p>
-            </Card>
+            <motion.div variants={cardAnimation}>
+              <Card className="p-10 flex flex-col items-center text-center group hover:shadow-2xl transition-all duration-300 border-none bg-white rounded-2xl">
+                <motion.div 
+                  className="w-20 h-20 rounded-2xl bg-blue-50 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-300"
+                  variants={iconAnimation}
+                >
+                  <FaRoute className="text-3xl text-[#0089e5]" />
+                </motion.div>
+                <motion.h3 
+                  variants={fadeIn}
+                  className="text-xl font-semibold mb-4 text-gray-800"
+                >
+                  Modern Jeepney Information
+                </motion.h3>
+                <motion.p 
+                  variants={fadeIn}
+                  className="text-gray-600"
+                >
+                  Get real-time information about modern jeepneys for a smoother commute.
+                </motion.p>
+              </Card>
+            </motion.div>
 
             {/* User Interface Card */}
-            <Card
-              className="p-6 flex flex-col items-center text-center shadow-lg border rounded-lg"
-              style={{ borderColor: "#0089e5" }}
-            >
-              <FaRegSmileBeam className="text-4xl text-sky-500 mb-4" />
-              <h3 className="text-xl font-semibold mb-4">
-                User-friendly Interface
-              </h3>
-              <p className="text-gray-600 mb-4">
-                Enjoy a simple, easy-to-use interface for a better user
-                experience.
-              </p>
-            </Card>
-          </div>
+            <motion.div variants={cardAnimation}>
+              <Card className="p-10 flex flex-col items-center text-center group hover:shadow-2xl transition-all duration-300 border-none bg-white rounded-2xl">
+                <motion.div 
+                  className="w-20 h-20 rounded-2xl bg-blue-50 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-300"
+                  variants={iconAnimation}
+                >
+                  <FaRegSmileBeam className="text-3xl text-[#0089e5]" />
+                </motion.div>
+                <motion.h3 
+                  variants={fadeIn}
+                  className="text-xl font-semibold mb-4 text-gray-800"
+                >
+                  User-friendly Interface
+                </motion.h3>
+                <motion.p 
+                  variants={fadeIn}
+                  className="text-gray-600"
+                >
+                  Enjoy a simple, easy-to-use interface for a better user experience.
+                </motion.p>
+              </Card>
+            </motion.div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
 
       {/* How It Works */}
-      <div
-        className="py-16 text-blue-600 container mx-auto px-6 sm:px-12 lg:px-24 border-t-8 border-t-sky-500"
+      <motion.div 
+        className="py-24 bg-gradient-to-br from-blue-600 to-blue-400 relative overflow-hidden" 
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true }}
+        variants={staggerContainer}
         id="howitworks"
-        style={{ backgroundColor: "#f8f8ff", fontFamily: "Onest" }}
       >
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row gap-8">
-            {/* Image Section - Full height on the left */}
-            <div className="md:w-1/2 h-full mb-4 md:mb-0">
+        {/* Content */}
+        <div className="container mx-auto px-6 sm:px-12 lg:px-24 relative z-10">
+          <div className="flex flex-col md:flex-row gap-16 items-center">
+            <motion.div 
+              className="md:w-1/2"
+              variants={fadeIn}
+            >
               <img
-                src="/assets/fordland2.png" // Replace with your image path
+                src="/assets/fordland2.png"
                 alt="How it works"
-                className="w-full h-full object-cover"
+                className="w-full h-auto transform hover:scale-105 transition-transform duration-500"
               />
-            </div>
+            </motion.div>
+            <motion.div 
+              className="md:w-1/2 space-y-12"
+              variants={staggerContainer}
+            >
+              <div>
+                <h1 className="text-3xl sm:text-4xl font-bold mb-6 text-white">
+                  How It Works
+                </h1>
+                <p className="text-blue-50 text-lg mb-12">
+                  Get started with Geo in three simple steps
+                </p>
+              </div>
+              
+              <div className="space-y-12">
+                <div className="flex items-center gap-8 group">
+                  <div className="w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                    <FaDownload className="text-2xl text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold mb-2 text-white">
+                      Download the App
+                    </h3>
+                    <p className="text-blue-50">
+                      Get started by downloading the Geo app on your device.
+                      Available for Android.
+                    </p>
+                  </div>
+                </div>
 
-            {/* Text Section with Icons on the Right */}
-            <div className="md:w-1/2 flex flex-col gap-8 justify-center items-start">
-              <h1
-                className="text-4xl font-bold text-center mb-4"
-                style={{ color: "#0089e5" }}
-              >
-                How It Works
-              </h1>
-              {/* Step 1: Download the App */}
-              <div className="flex items-center gap-4">
-                <FaDownload className="text-4xl" style={{ color: "#0089e5" }} />
-                <div>
-                  <h3
-                    className="text-2xl font-bold mb-2 text-left"
-                    style={{ color: "#0089e5" }}
-                  >
-                    Download the App
-                  </h3>
-                  <p className="text-gray-600 mb-4 text-left">
-                    Get started by downloading the Geo app on your device.
-                    Available for Android.
-                  </p>
+                <div className="flex items-center gap-8 group">
+                  <div className="w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                    <FaMapMarkedAlt className="text-2xl text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold mb-2 text-white">
+                      Track Your Jeepney
+                    </h3>
+                    <p className="text-blue-50">
+                      Use real-time tracking to view the exact location of modern
+                      jeepneys and information.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-8 group">
+                  <div className="w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                    <FaShieldAlt className="text-2xl text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold mb-2 text-white">
+                      Enjoy Safe and Efficient Commute
+                    </h3>
+                    <p className="text-blue-50">
+                      With location tracking, your commute is both safe and
+                      efficient.
+                    </p>
+                  </div>
                 </div>
               </div>
-
-              {/* Step 2: Track Your Jeepney */}
-              <div className="flex items-center gap-4">
-                <FaMapMarkedAlt
-                  className="text-5xl "
-                  style={{ color: "#0089e5" }}
-                />
-                <div>
-                  <h3
-                    className="text-2xl font-bold mb-2 text-left"
-                    style={{ color: "#0089e5" }}
-                  >
-                    Track Your Jeepney
-                  </h3>
-                  <p className="text-gray-600 mb-4 text-left">
-                    Use real-time tracking to view the exact location of modern
-                    jeepneys and information.
-                  </p>
-                </div>
-              </div>
-
-              {/* Step 3: Enjoy Safe and Efficient Commute */}
-              <div className="flex items-center gap-4">
-                <FaShieldAlt
-                  className="text-4xl"
-                  style={{ color: "#0089e5" }}
-                />
-                <div>
-                  <h3
-                    className="text-2xl font-bold mb-2 text-left"
-                    style={{ color: "#0089e5" }}
-                  >
-                    Enjoy Safe and Efficient Commute
-                  </h3>
-                  <p className="text-gray-600 mb-4 text-left">
-                    With location tracking, your commute is both safe and
-                    efficient.
-                  </p>
-                </div>
-              </div>
-            </div>
+            </motion.div>
           </div>
         </div>
-      </div>
+      </motion.div>
+
+      {/* About Section */}
+      <motion.div 
+        className="py-24 bg-white relative overflow-hidden" 
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+        id="about"
+      >
+        {/* Background blur effects */}
+        <div 
+          className="absolute top-1/4 -left-1/4 w-1/2 h-1/2 rounded-full bg-blue-200/30 blur-[120px]"
+          style={{ background: 'linear-gradient(to right, rgba(0,137,229,0.15), rgba(0,161,255,0.15))' }}
+        />
+        <div 
+          className="absolute bottom-1/4 -right-1/4 w-1/2 h-1/2 rounded-full bg-blue-200/30 blur-[120px]"
+          style={{ background: 'linear-gradient(to left, rgba(0,137,229,0.15), rgba(0,161,255,0.15))' }}
+        />
+
+        {/* Content */}
+        <div className="container mx-auto px-6 sm:px-12 lg:px-24 relative z-10">
+          <motion.h1 
+            variants={fadeIn}
+            className="text-3xl sm:text-4xl font-bold text-center mb-6 text-gray-800"
+          >
+            Meet the Developers
+          </motion.h1>
+          {/* <p className="text-gray-600 text-center max-w-2xl mx-auto mb-16 text-lg">
+            The talented team behind Geo
+          </p> */}
+          <motion.div 
+            className="grid md:grid-cols-2 gap-16 max-w-5xl mx-auto"
+            variants={staggerContainer}
+          >
+            {/* Developer 1 */}
+            <motion.div variants={cardAnimation}>
+              <Card className="p-10 flex flex-col items-center text-center group hover:shadow-2xl transition-all duration-300 border-none bg-white rounded-2xl">
+                <h3 className="text-2xl font-semibold mb-2 text-gray-800">
+                  Lorenzo Jay R. Pantalla
+                </h3>
+                <p className="text-[#0089e5] font-medium mb-4">
+                  Lead Developer
+                </p>
+                <p className="text-gray-600">
+                  Bachelor of Science in Information Systems
+                </p>
+              </Card>
+            </motion.div>
+
+            {/* Developer 2 */}
+            <motion.div variants={cardAnimation}>
+              <Card className="p-10 flex flex-col items-center text-center group hover:shadow-2xl transition-all duration-300 border-none bg-white rounded-2xl">
+                <h3 className="text-2xl font-semibold mb-2 text-gray-800">
+                  Angela Dianne Nucum
+                </h3>
+                <p className="text-[#0089e5] font-medium mb-4">
+                  Web Developer
+                </p>
+                <p className="text-gray-600">
+                  Bachelor of Science in Computer Science
+                </p>
+              </Card>
+            </motion.div>
+          </motion.div>
+        </div>
+      </motion.div>
+
+      {/* Footer */}
+      <motion.footer 
+        className="bg-gray-900 text-white py-16"
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true }}
+        variants={fadeIn}
+      >
+        <div className="container mx-auto px-6 sm:px-12 lg:px-24">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {/* Logo and Description */}
+            <div className="flex flex-col space-y-4">
+              <div className="flex items-center space-x-2">
+                <img
+                  src="/assets/icon1.png"
+                  alt="Geo"
+                  className="w-8 h-8 object-cover"
+                />
+                <span
+                  className="text-2xl font-medium"
+                  style={{ color: "#0089E5" }}
+                >
+                  Geo
+                </span>
+              </div>
+              <p className="text-gray-400 text-sm">
+                Making commuting easier and safer with real-time modern jeepney
+                tracking.
+              </p>
+            </div>
+
+            {/* Quick Links */}
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+              <ul className="space-y-2">
+                <li>
+                  <a
+                    href="#home"
+                    className="text-gray-400 hover:text-white text-sm"
+                  >
+                    Home
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#features"
+                    className="text-gray-400 hover:text-white text-sm"
+                  >
+                    Features
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#howitworks"
+                    className="text-gray-400 hover:text-white text-sm"
+                  >
+                    How It Works
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#about"
+                    className="text-gray-400 hover:text-white text-sm"
+                  >
+                    About
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Download Section */}
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Download App</h3>
+              <p className="text-gray-400 text-sm mb-4">
+                Get the Geo app now and start your smart commuting journey.
+              </p>
+              <a href="https://tinyurl.com/GeoMobileApp" download="Geo.apk">
+              <Button
+                className="w-full sm:w-auto px-4 py-2 text-sm font-medium transition-all hover:scale-105"
+                style={{
+                  background: "linear-gradient(to right, #0089e5, #00a1ff)",
+                  color: "#fff",
+                }}
+              >
+                Download for Android
+              </Button>
+              </a>
+            </div>
+          </div>
+
+          {/* Copyright */}
+          <div className="border-t border-gray-800 mt-12 pt-8 text-center">
+            <p className="text-gray-400 text-sm">
+              © {new Date().getFullYear()} Geo. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </motion.footer>
     </div>
   );
 };
